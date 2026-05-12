@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Letter for You</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:italic&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #d63031;
+            --paper-color: #fff9ed;
+            --envelope-color: #f1f2f6;
+            --bg-color: #fab1a0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: var(--bg-color);
+            font-family: 'Playfair Display', serif;
+            overflow: hidden;
+        }
+
+        /* Container for the whole interaction */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .envelope-wrapper:hover {
+            transform: translateY(-10px);
+        }
+
+        /* The Envelope Body */
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #e0e0e0;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        /* The Flap */
+        .envelope::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            z-index: 4;
+            border-top: 130px solid var(--primary-red);
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            transform-origin: top;
+            transition: transform 0.5s 0.3s ease;
+        }
+
+        /* The Pocket */
+        .envelope::after {
+            content: "";
+            position: absolute;
+            z-index: 3;
+            width: 0;
+            height: 0;
+            border-top: 100px solid transparent;
+            border-right: 150px solid #f1f2f6;
+            border-bottom: 100px solid #f1f2f6;
+            border-left: 150px solid #e1e1e1;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        /* The Letter inside */
+        .letter {
+            position: absolute;
+            bottom: 0;
+            left: 10px;
+            width: 280px;
+            height: 180px;
+            background: var(--paper-color);
+            z-index: 2;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.6s ease, height 0.6s 0.5s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .letter h2 {
+            font-family: 'Dancing Script', cursive;
+            color: var(--primary-red);
+            margin-top: 0;
+        }
+
+        .letter p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #2d3436;
+            opacity: 0; /* Hidden initially */
+            transition: opacity 0.5s 1s ease;
+        }
+
+        /* --- ACTIVE STATE --- */
+        /* When the 'open' class is added via JS */
+        .envelope-wrapper.open .envelope::before {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translateY(-120px);
+            height: 350px; /* Expands upward */
+            z-index: 5;
+        }
+
+        .envelope-wrapper.open .letter p {
+            opacity: 1;
+        }
+
+        .heart-icon {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            z-index: 10;
+            transition: opacity 0.3s;
+        }
+
+        .envelope-wrapper.open .heart-icon {
+            opacity: 0;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="envelope-wrapper" id="envelope">
+        <div class="heart-icon">❤️</div>
+        <div class="envelope">
+            <div class="letter">
+                <h2>Happy 71st Monthsary!</h2>
+                <p>
+                    Every single day with you feels like a new chapter 
+                    of a story I never want to end. Thank you for being 
+                    the best part of my life for the last 71 months.<br><br>
+                    I love you more than words can express.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const envelope = document.getElementById('envelope');
+        envelope.addEventListener('click', () => {
+            envelope.classList.toggle('open');
+        });
+    </script>
+
+</body>
+</html>
