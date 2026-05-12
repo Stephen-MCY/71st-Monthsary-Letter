@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>71st Monthsary - Version 5.0</title>
+    <title>71st Monthsary - Version 6.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:italic&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -20,44 +20,46 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            /* Victorian Damask Pattern */
             background-color: #d4a5a5;
-            background-image: url("https://www.transparenttextures.com/patterns/60-lines.png"), 
-                              linear-gradient(135deg, #e5b3b3 0%, #d4a5a5 100%);
             font-family: 'Playfair Display', serif;
             overflow: hidden;
         }
 
-        /* --- VICTORIAN TEXTURE OVERLAY --- */
-        body::before {
-            content: "";
+        /* --- BACKGROUND SPACE (flower2) --- */
+        .bg-wallpaper {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://www.transparenttextures.com/patterns/fancy-pants.png'); /* Damask Texture */
-            opacity: 0.4;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: url('flower2.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.15; /* Subtle background presence */
             z-index: 0;
             pointer-events: none;
+            filter: sepia(0.2);
         }
 
-        /* --- BACKGROUND FLOWERS --- */
-        .bg-flower {
+        /* --- FRAME ELEMENTS (flower3 & flower1) --- */
+        .frame-flower {
             position: fixed;
-            z-index: 1;
+            z-index: 5;
             pointer-events: none;
             opacity: 0.9;
-            filter: sepia(0.3) drop-shadow(5px 10px 15px rgba(0,0,0,0.2));
-            transition: all 0.5s ease;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
         }
 
-        @media (min-width: 1024px) {
-            .f1, .f2, .f3, .f4 { width: 400px !important; }
-            .envelope-wrapper { transform: scale(1.2); }
-        }
+        /* Flower3: Top and Bottom */
+        .f3-top { width: 40%; top: -50px; left: 50%; transform: translateX(-50%) rotate(180deg); }
+        .f3-bottom { width: 40%; bottom: -50px; left: 50%; transform: translateX(-50%); }
 
-        .f1 { width: 220px; top: -40px; left: -40px; transform: rotate(-15deg); }
-        .f2 { width: 200px; top: -30px; right: -30px; transform: rotate(15deg); }
-        .f3 { width: 280px; bottom: -60px; left: -60px; transform: rotate(10deg); }
-        .f4 { width: 250px; bottom: -40px; right: -40px; transform: rotate(-10deg); }
+        /* Flower1: Sides */
+        .f1-left { height: 60%; left: -50px; top: 50%; transform: translateY(-50%); }
+        .f1-right { height: 60%; right: -50px; top: 50%; transform: translateY(-50%) scaleX(-1); }
+
+        @media (max-width: 768px) {
+            .f3-top, .f3-bottom { width: 80%; }
+            .f1-left, .f1-right { display: none; } /* Hide sides on mobile for clarity */
+        }
 
         /* --- ENVELOPE SYSTEM --- */
         .container {
@@ -78,11 +80,9 @@
             width: 100%; height: 100%;
             background: #dcdcdc;
             border-radius: 0 0 5px 5px;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
-            border: 1px solid #c0c0c0;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
         }
 
-        /* Envelope Top Flap */
         .envelope::before {
             content: "";
             position: absolute;
@@ -94,7 +94,6 @@
             transition: transform 0.7s ease;
         }
 
-        /* Wax Seal with Gold Trim */
         .wax-seal {
             position: absolute;
             top: 50%; left: 50%;
@@ -121,12 +120,23 @@
             width: 350px; height: 230px;
             background: var(--paper-color);
             z-index: 3;
-            padding: 40px 30px;
+            padding: 30px;
             box-sizing: border-box;
             transition: transform 0.8s ease, height 0.8s ease;
             box-shadow: 0 0 25px rgba(0,0,0,0.1);
             border: 1px solid #e8dec9;
-            background-image: url('https://www.transparenttextures.com/patterns/old-map.png'); /* Subtle Paper Texture */
+            background-image: url('https://www.transparenttextures.com/patterns/old-map.png');
+        }
+
+        /* Letter Ornament (flower4) */
+        .letter-ornament {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 80px;
+            opacity: 0.6;
+            pointer-events: none;
+            transition: opacity 0.6s 0.8s ease;
         }
 
         .letter-content {
@@ -145,11 +155,9 @@
             font-family: 'Great Vibes', cursive;
             color: var(--primary-red);
             font-size: 2rem;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
             border-bottom: 1px solid var(--accent-gold);
-            display: inline-block;
-            width: 100%;
             padding-bottom: 10px;
         }
 
@@ -172,25 +180,27 @@
         /* --- OPEN STATE --- */
         .container.open { transform: translateY(180px); }
         .container.open .envelope::before { transform: rotateX(180deg); z-index: 1; }
-        .container.open .letter { transform: translateY(-420px); height: 650px; z-index: 10; }
+        .container.open .letter { transform: translateY(-450px); height: 700px; z-index: 10; }
         .container.open .letter-content { opacity: 1; }
         .container.open .wax-seal { opacity: 0; pointer-events: none; }
 
-        /* Slow falling petals */
-        #petals-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        /* Petals fall on top of everything */
+        #petals-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 100; }
         .petal { position: absolute; background-color: #df8b8b; border-radius: 150% 0 150% 0; animation: fall linear infinite; opacity: 0.6; }
         @keyframes fall {
             0% { transform: translate(0, -10%) rotate(0deg); }
-            100% { transform: translate(120px, 110vh) rotate(360deg); }
+            100% { transform: translate(150px, 110vh) rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-    <img src="flower1.png" class="bg-flower f1">
-    <img src="flower2.png" class="bg-flower f2">
-    <img src="flower3.png" class="bg-flower f3">
-    <img src="flower4.png" class="bg-flower f4">
+    <div class="bg-wallpaper"></div>
+
+    <img src="flower3.png" class="frame-flower f3-top">
+    <img src="flower3.png" class="frame-flower f3-bottom">
+    <img src="flower1.png" class="frame-flower f1-left">
+    <img src="flower1.png" class="frame-flower f1-right">
 
     <div id="petals-container"></div>
 
@@ -199,6 +209,8 @@
             <div class="wax-seal">D</div>
             <div class="envelope">
                 <div class="letter">
+                    <img src="flower4.png" class="letter-ornament">
+                    
                     <div class="letter-content">
                         <h2>Dear My Bebe Darling,</h2>
                         <p>Salamat sa lahat ng taon na pinagsamahan natin. Ikaw pinakamasayang nangyari sa buhay ko. Salamat bebe ko kasi andyan ka parin para sa ating dalawa, sa relationship natin. Gusto ko magsorry sa lahat ng pagkukulang ko sayo bebe ko. Sa totoo lang, hindi ko talaga maimagine na wala ka sa buhay ko. Lagi ko iniisip na ikaw yung goal ng buhay ko, ikaw yung nagbibigay ng inspiration sakin para magkaroon ng mga pangarap.</p>
