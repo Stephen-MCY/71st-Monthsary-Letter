@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>71st Monthsary - Version 2.0</title>
+    <title>71st Monthsary - Version 3.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:italic&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -20,54 +20,42 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: var(--bg-color);
-            background-image: radial-gradient(#f8bbd0 1px, transparent 1px);
-            background-size: 20px 20px;
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
             font-family: 'Playfair Display', serif;
             overflow: hidden;
         }
 
-        /* --- CELEBRATION ELEMENTS --- */
-        
-        /* Floating Balloons */
-        .balloon {
+        /* --- BACKGROUND FLOWERS (flower1 - flower4) --- */
+        .bg-flower {
             position: fixed;
-            width: 80px;
-            bottom: -150px;
-            z-index: 2;
-            animation: floatBalloon 15s ease-in infinite;
-            opacity: 0.8;
-        }
-
-        @keyframes floatBalloon {
-            0% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-60vh) rotate(10deg); }
-            100% { transform: translateY(-110vh) rotate(-10deg); }
-        }
-
-        /* Corner Flowers */
-        .flower-corner {
-            position: fixed;
-            width: 250px;
-            z-index: 15;
-            pointer-events: none;
-            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
-        }
-        .bottom-left { bottom: -20px; left: -20px; transform: rotate(10deg); }
-        .bottom-right { bottom: -20px; right: -20px; transform: rotate(-10deg) scaleX(-1); }
-
-        /* Lace Borders */
-        .lace-border {
-            position: fixed;
-            top: 0; bottom: 0;
-            width: 60px;
-            background-image: url('https://www.transparenttextures.com/patterns/pinstripe.png');
-            background-color: #f48fb1;
-            opacity: 0.2;
             z-index: 1;
+            pointer-events: none;
+            opacity: 0.8;
+            filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.1));
         }
-        .lace-left { left: 0; border-right: 2px dashed #f06292; }
-        .lace-right { right: 0; border-left: 2px dashed #f06292; }
+
+        .f1 { width: 200px; top: -20px; left: -20px; transform: rotate(-15deg); }
+        .f2 { width: 180px; top: -20px; right: -20px; transform: rotate(15deg); }
+        .f3 { width: 220px; bottom: -30px; left: -30px; transform: rotate(10deg); }
+        .f4 { width: 200px; bottom: -20px; right: -20px; transform: rotate(-10deg); }
+
+        /* --- CENTERPIECE ACCENT (peonies1) --- */
+        .peony-accent {
+            position: absolute;
+            width: 120px;
+            top: -60px; /* Positions it at the top-center of the paper */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 11;
+            opacity: 0;
+            transition: opacity 0.8s 1s ease, transform 0.8s 1s ease;
+            pointer-events: none;
+        }
+
+        .container.open .peony-accent {
+            opacity: 1;
+            transform: translateX(-50%) translateY(10px);
+        }
 
         /* --- ROSE PETALS --- */
         #petals-container {
@@ -75,7 +63,7 @@
             top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 3;
+            z-index: 2;
         }
         .petal {
             position: absolute;
@@ -108,34 +96,13 @@
             height: 100%;
             background: #dbdbdb;
             border-radius: 0 0 10px 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        .stamp {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 45px;
-            height: 55px;
-            background: #fff;
-            border: 2px dashed #d32f2f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.6rem;
-            color: #d32f2f;
-            text-align: center;
-            transform: rotate(5deg);
-            z-index: 6;
-            padding: 2px;
-            font-weight: bold;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
 
         .envelope::before {
             content: "";
             position: absolute;
-            top: 0;
-            z-index: 5;
+            top: 0; z-index: 5;
             border-top: 150px solid var(--primary-red);
             border-left: 175px solid transparent;
             border-right: 175px solid transparent;
@@ -145,11 +112,9 @@
 
         .wax-seal {
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -100%);
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             background: var(--seal-color);
             border-radius: 50%;
             z-index: 11;
@@ -166,15 +131,13 @@
         /* --- THE LETTER --- */
         .letter {
             position: absolute;
-            top: 5px;
-            left: 10px;
-            width: 330px;
-            height: 210px;
+            top: 5px; left: 10px;
+            width: 330px; height: 210px;
             background: var(--paper-color);
             z-index: 3;
-            padding: 30px;
+            padding: 40px 25px 25px 25px;
             box-sizing: border-box;
-            transition: transform 0.8s ease;
+            transition: transform 0.8s ease, height 0.8s ease;
             box-shadow: 0 0 15px rgba(0,0,0,0.05);
             border: 1px solid #eee;
             border-radius: 5px;
@@ -187,19 +150,19 @@
             transition: opacity 0.5s 0.6s ease;
             scrollbar-width: none;
         }
-
         .letter-content::-webkit-scrollbar { display: none; }
 
         .letter h2 {
             font-family: 'Great Vibes', cursive;
             color: var(--primary-red);
             font-size: 1.8rem;
-            margin: 0 0 15px 0;
+            margin: 20px 0 15px 0;
+            text-align: center;
         }
 
         .letter p {
-            font-size: 0.9rem;
-            line-height: 1.6;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: #333;
             margin-bottom: 15px;
             text-align: justify;
@@ -208,15 +171,15 @@
         .signature {
             font-family: 'Great Vibes', cursive;
             text-align: right;
-            font-size: 1.6rem;
+            font-size: 1.7rem;
             color: var(--primary-red);
             margin-top: 20px;
         }
 
         /* --- OPEN STATE --- */
-        .container.open { transform: translateY(120px); }
+        .container.open { transform: translateY(150px); }
         .container.open .envelope::before { transform: rotateX(180deg); z-index: 1; }
-        .container.open .letter { transform: translateY(-320px); height: 500px; z-index: 10; }
+        .container.open .letter { transform: translateY(-350px); height: 550px; z-index: 10; }
         .container.open .letter-content { opacity: 1; }
         .container.open .wax-seal { opacity: 0; pointer-events: none; }
 
@@ -224,19 +187,21 @@
 </head>
 <body>
 
-    <div class="lace-border lace-left"></div>
-    <div class="lace-border lace-right"></div>
+    <img src="flower1.png" class="bg-flower f1" alt="">
+    <img src="flower2.png" class="bg-flower f2" alt="">
+    <img src="flower3.png" class="bg-flower f3" alt="">
+    <img src="flower4.png" class="bg-flower f4" alt="">
+
     <div id="petals-container"></div>
-    
-    <img src="https://img.icons8.com/color/500/romantic-flower.png" class="flower-corner bottom-left" alt="Flowers">
-    <img src="https://img.icons8.com/color/500/romantic-flower.png" class="flower-corner bottom-right" alt="Flowers">
 
     <div class="container" id="main-container">
         <div class="envelope-wrapper" onclick="toggleLetter()">
             <div class="wax-seal">D</div>
-            <div class="stamp">FOREVER<br>LOVE<br>71 Mo.</div>
+            
             <div class="envelope">
                 <div class="letter">
+                    <img src="peonies1.png" class="peony-accent" alt="">
+                    
                     <div class="letter-content">
                         <h2>Dear My Bebe Darling,</h2>
                         <p>Salamat sa lahat ng taon na pinagsamahan natin. Ikaw pinakamasayang nangyari sa buhay ko. Salamat bebe ko kasi andyan ka parin para sa ating dalawa, sa relationship natin. Gusto ko magsorry sa lahat ng pagkukulang ko sayo bebe ko. Sa totoo lang, hindi ko talaga maimagine na wala ka sa buhay ko. Lagi ko iniisip na ikaw yung goal ng buhay ko, ikaw yung nagbibigay ng inspiration sakin para magkaroon ng mga pangarap.</p>
@@ -268,18 +233,6 @@
             setTimeout(() => petal.remove(), 7000);
         }
         setInterval(createPetal, 300);
-
-        // Floating Balloons
-        function createBalloon() {
-            const b = document.createElement('img');
-            b.src = "https://img.icons8.com/color/96/filled-heart.png";
-            b.classList.add('balloon');
-            b.style.left = Math.random() * 100 + 'vw';
-            b.style.animationDuration = (Math.random() * 10 + 10) + 's';
-            document.body.appendChild(b);
-            setTimeout(() => b.remove(), 15000);
-        }
-        setInterval(createBalloon, 2000);
     </script>
 </body>
 </html>
