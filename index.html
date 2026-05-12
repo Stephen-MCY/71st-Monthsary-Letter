@@ -7,12 +7,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:italic&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-red: #b33939; /* Richer, deeper red */
-            --paper-color: #fff9ed;
-            --envelope-color: #f1f2f6;
-            --seal-color: #d63031;
-            --bg-start: #ffdde1; /* Soft pink */
-            --bg-end: #ee9ca7;   /* Peach */
+            --primary-red: #a91d1d;
+            --paper-color: #fffaf0;
+            --envelope-color: #f3f3f3;
+            --seal-color: #9e1b1b;
+            --bg-color: #fce4ec;
         }
 
         body {
@@ -21,193 +20,166 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#f8bbd0 1px, transparent 1px);
+            background-size: 20px 20px;
             font-family: 'Playfair Display', serif;
             overflow: hidden;
-            position: relative; /* Container for floating hearts */
         }
 
-        /* --- FANCY BACKGROUND ELEMENTS --- */
-        /* Subtle texture overlay for the background */
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTIwIDIwaDIwdjIwSDIWMjB6TTAgMjBoMjB2MjBIMFYyMHoyMCAwaDIwdjIwSDIwVjB6Ii8+PC9nPjwvZz48L3N2Zz4=');
-            opacity: 0.5;
-            z-index: -1;
+        /* --- STATIC ROMANTIC ELEMENTS --- */
+        .lace-border {
+            position: fixed;
+            top: 0; bottom: 0;
+            width: 50px;
+            background-image: radial-gradient(circle, transparent 70%, #f48fb1 75%);
+            background-size: 20px 20px;
+            opacity: 0.3;
+            z-index: 0;
         }
+        .lace-left { left: 0; }
+        .lace-right { right: 0; }
 
-        /* Floating hearts container (JS will add children) */
-        #hearts-container {
+        /* --- ROSE PETALS ANIMATION --- */
+        #petals-container {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            overflow: hidden;
-            z-index: 1; /* Behind envelope, on top of bg */
             pointer-events: none;
+            z-index: 1;
         }
 
-        .floating-heart {
+        .petal {
             position: absolute;
-            bottom: -10px;
-            color: rgba(255, 255, 255, 0.6);
-            user-select: none;
-            animation: floatUp 6s linear infinite;
+            background-color: #ffcdd2;
+            border-radius: 150% 0 150% 0;
+            animation: fall linear infinite;
+            opacity: 0.8;
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(0vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        @keyframes fall {
+            0% { transform: translate(0, -10%) rotate(0deg); }
+            100% { transform: translate(100px, 110vh) rotate(360deg); }
         }
 
-        /* --- ENVELOPE --- */
-        .envelope-wrapper {
+        /* --- ENVELOPE SYSTEM --- */
+        .container {
             position: relative;
             z-index: 10;
-            cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .envelope-wrapper:hover {
-            transform: translateY(-10px) scale(1.02);
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            width: 350px;
+            height: 230px;
         }
 
         .envelope {
             position: relative;
-            width: 320px;
-            height: 220px;
-            background: #e0e0e0;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            width: 100%;
+            height: 100%;
+            background: #dbdbdb;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        /* Flap */
+        /* Vintage Stamp */
+        .stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 45px;
+            height: 55px;
+            background: #fff;
+            border: 2px dashed #d32f2f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            color: #d32f2f;
+            text-align: center;
+            transform: rotate(5deg);
+            z-index: 6;
+            padding: 2px;
+            font-weight: bold;
+        }
+
+        /* Envelope Flap */
         .envelope::before {
             content: "";
             position: absolute;
             top: 0;
             z-index: 5;
-            border-top: 140px solid var(--primary-red);
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
+            border-top: 150px solid var(--primary-red);
+            border-left: 175px solid transparent;
+            border-right: 175px solid transparent;
             transform-origin: top;
-            transition: transform 0.5s 0.3s ease, z-index 0.5s 0.3s ease;
+            transition: transform 0.6s ease;
         }
 
-        /* Pocket (front part) */
-        .envelope::after {
-            content: "";
-            position: absolute;
-            z-index: 4;
-            width: 0;
-            height: 0;
-            border-top: 110px solid transparent;
-            border-right: 160px solid #f1f2f6;
-            border-bottom: 110px solid #f1f2f6;
-            border-left: 160px solid #e1e1e1;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
-        }
-
-        /* The Seal (wax effect) */
+        /* Wax Seal */
         .wax-seal {
             position: absolute;
-            top: 40%;
+            top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
+            transform: translate(-50%, -100%);
+            width: 60px;
+            height: 60px;
             background: var(--seal-color);
             border-radius: 50%;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            z-index: 11; /* Always on top */
+            z-index: 11;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: white;
+            color: #ffd700;
             font-family: 'Great Vibes', cursive;
-            font-size: 1.1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-            transition: opacity 0.3s, transform 0.3s ease-out;
-            background-image: radial-gradient(circle, #ff0000 0%, #d63031 60%, #b33939 100%); /* Depth */
-        }
-
-        .envelope-wrapper:hover .wax-seal {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        /* Active/Open State for Seal */
-        .envelope-wrapper.open .wax-seal {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.5);
-            pointer-events: none;
+            font-size: 1.4rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.3), 0 4px 10px rgba(0,0,0,0.3);
+            transition: opacity 0.4s;
         }
 
         /* --- THE LETTER --- */
         .letter {
             position: absolute;
-            bottom: 0;
+            top: 5px;
             left: 10px;
-            width: 300px;
-            height: 200px;
+            width: 330px;
+            height: 210px;
             background: var(--paper-color);
             z-index: 3;
-            padding: 25px;
+            padding: 30px;
             box-sizing: border-box;
-            transition: transform 0.6s ease, height 0.6s 0.5s ease;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-            overflow: hidden; /* Hide the long text initially */
+            transition: transform 0.8s ease;
+            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
             border-radius: 5px;
         }
 
-        /* Watermark pattern on the paper */
-        .letter::before {
-            content: "love story love story";
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            font-family: 'Great Vibes', cursive;
-            font-size: 10rem;
-            color: rgba(0, 0, 0, 0.015);
-            line-height: 1;
-            white-space: pre-wrap;
-            pointer-events: none;
-        }
-
-        /* Inner container allows scrolling the *content* inside the *paper* */
         .letter-content {
             height: 100%;
-            width: 100%;
-            overflow-y: auto; /* Scrollbar only inside paper */
-            padding-right: 10px; /* Space for scrollbar */
+            overflow-y: auto;
             opacity: 0;
-            transition: opacity 0.5s 1.2s ease;
-            scrollbar-width: thin; /* Firefox */
-            scrollbar-color: rgba(179, 57, 57, 0.2) transparent;
+            transition: opacity 0.5s 0.6s ease;
+            scrollbar-width: none;
         }
 
-        /* Webkit scrollbar styles */
-        .letter-content::-webkit-scrollbar { width: 5px; }
-        .letter-content::-webkit-scrollbar-thumb { background: rgba(179, 57, 57, 0.1); border-radius: 5px; }
+        .letter-content::-webkit-scrollbar { display: none; }
 
         .letter h2 {
             font-family: 'Great Vibes', cursive;
             color: var(--primary-red);
             font-size: 1.8rem;
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 20px;
+            margin: 0 0 15px 0;
         }
 
         .letter p {
-            font-size: 0.95rem;
-            line-height: 1.8;
-            color: #2d3436;
-            margin-bottom: 20px;
-            text-indent: 1.5em; /* Traditional letter formatting */
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+            text-align: justify;
         }
 
         .signature {
@@ -215,102 +187,94 @@
             text-align: right;
             font-size: 1.6rem;
             color: var(--primary-red);
-            margin-top: 30px;
-            margin-right: 20px;
+            margin-top: 20px;
         }
 
-        /* --- ACTIVE STATE --- */
-        .envelope-wrapper.open .envelope::before {
+        /* --- OPEN STATE ANIMATION --- */
+        .container.open {
+            transform: translateY(120px); /* Moves the whole envelope down */
+        }
+
+        .container.open .envelope::before {
             transform: rotateX(180deg);
-            z-index: 0;
+            z-index: 1;
         }
 
-        .envelope-wrapper.open .letter {
-            transform: translateY(-130px);
-            height: 480px; /* Expands to show more */
-            z-index: 12; /* High enough to be interactable above flap */
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        .container.open .letter {
+            transform: translateY(-280px); /* Moves letter up while envelope goes down */
+            height: 450px;
+            z-index: 10;
         }
 
-        .envelope-wrapper.open .letter-content {
+        .container.open .letter-content {
             opacity: 1;
         }
 
+        .container.open .wax-seal {
+            opacity: 0;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
 
-    <div id="hearts-container"></div>
+    <div class="lace-border lace-left"></div>
+    <div class="lace-border lace-right"></div>
+    <div id="petals-container"></div>
 
-    <div class="envelope-wrapper" id="envelope">
-        <div class="wax-seal">Love</div>
-        
-        <div class="envelope">
-            <div class="letter">
-                <div class="letter-content">
-                    <h2>Dearest Bebe Darling,</h2>
-                    <p>
-                        Salamat sa lahat ng taon na pinagsamahan natin. Ikaw pinakamasayang nangyari sa buhay ko. Salamat bebe ko kasi andyan ka parin para sa ating dalawa, sa relationship natin. Gusto ko magsorry sa lahat ng pagkukulang ko sayo bebe ko. Sa totoo lang, hindi ko talaga maimagine na wala ka sa buhay ko. Lagi ko iniisip na ikaw yung goal ng buhay ko, ikaw yung nagbibigay ng inspiration sakin para magkaroon ng mga pangarap. Sobrang excited na akong makasama ka habang buhay tapos gawin yung mga bagay-bagay na magkasama. 
-                    </p>
-                    <p>
-                        Hindi na ako makapaghintay na makita ka ulit bebe ko. Araw araw kitang iniisip. Gustong gusto na kita mahawakan, mahalikan, mayakap at kung ano ano pa hehe. Hirap ng LDR sana kasama kita tapos nauuwian kita sa bahay araw araw. Sana mag iingat ka lagi bebe ko, tapos kanina natutuwa ako kasi lumalayo ka sa mga lalaki tas pinapakita mong akin ka lang. Yan ang gusto ko! Kaya mas lalo akong nai-inlove sayo ihh. Akin ka lang ah! Ayaw na ayaw kong mashare ka sa iba, akin lang lahat sayo. Sarap mo ih super. Sana matupad mo lahat ng mga pangarap mo. Itatry ko makakaya ko na iparamdam sayo na mahal na mahal kita.
-                    </p>
-                    <p>
-                        HAPPY 71st MONTHSARY ULIT MY SUPER DUPER GANDANG BEBE DARLING NA MAHAL NA MAHAL KO! ILOVEYOUUU!!!
-                    </p>
-                    <div class="signature">Donald</div>
+    <div class="container" id="main-container">
+        <div class="envelope-wrapper" onclick="toggleLetter()">
+            <div class="wax-seal">D</div>
+            <div class="stamp">FOREVER<br>LOVE<br>71 Mo.</div>
+            <div class="envelope">
+                <div class="letter">
+                    <div class="letter-content">
+                        <h2>Dear My Bebe Darling,</h2>
+                        <p>
+                            Salamat sa lahat ng taon na pinagsamahan natin. Ikaw pinakamasayang nangyari sa buhay ko. Salamat bebe ko kasi andyan ka parin para sa ating dalawa, sa relationship natin. Gusto ko magsorry sa lahat ng pagkukulang ko sayo bebe ko. Sa totoo lang, hindi ko talaga maimagine na wala ka sa buhay ko. Lagi ko iniisip na ikaw yung goal ng buhay ko, ikaw yung nagbibigay ng inspiration sakin para magkaroon ng mga pangarap. 
+                        </p>
+                        <p>
+                            Sobrang excited na akong makasama ka habang buhay tapos gawin yung mga bagay-bagay na magkasama. Hindi na ako makapaghintay na makita ka ulit bebe ko. Araw araw kitang iniisip. Gustong gusto na kita mahawakan, mahalikan, mayakap at kung ano ano pa hehe. Hirap ng LDR sana kasama kita tapos nauuwian kita sa bahay araw araw. 
+                        </p>
+                        <p>
+                            Sana mag iingat ka lagi bebe ko, tapos kanina natutuwa ako kasi lumalayo ka sa mga lalaki tas pinapakita mong akin ka lang. Yan ang gusto ko! Kaya mas lalo akong nai-inlove sayo ihh. Akin ka lang ah! Ayaw na ayaw kong mashare ka sa iba, akin lang lahat sayo. Sarap mo ih super. Sana matupad mo lahat ng mga pangarap mo. Itatry ko makakaya ko na iparamdam sayo na mahal na mahal kita. 
+                        </p>
+                        <p>
+                            HAPPY 71st MONTHSARY ULIT MY SUPER DUPER GANDANG BEBE DARLING NA MAHAL NA MAHAL KO! ILOVEYOUUU!!!
+                        </p>
+                        <div class="signature">Love, Donald</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const envelope = document.getElementById('envelope');
-        const heartsContainer = document.getElementById('hearts-container');
-
-        // Main animation trigger
-        envelope.addEventListener('click', () => {
-            const isOpen = envelope.classList.contains('open');
-            envelope.classList.toggle('open');
-            
-            // Generate extra hearts when opening
-            if (!isOpen) {
-                for (let i = 0; i < 8; i++) {
-                    createHeart(true); // True = rapid release
-                }
-            }
-        });
-
-        // Floating Hearts logic
-        function createHeart(isRapid) {
-            const heart = document.createElement('div');
-            heart.classList.add('floating-heart');
-            heart.innerHTML = '❤️'; // Or use an SVG/Character
-            
-            heart.style.left = Math.random() * 100 + 'vw';
-            
-            // Randomize size
-            const size = (Math.random() * 1 + 0.5) + 'rem';
-            heart.style.fontSize = size;
-            
-            // Randomize speed/duration
-            const duration = Math.random() * 3 + (isRapid ? 2 : 4) + 's';
-            heart.style.animationDuration = duration;
-            
-            // Randomize initial tilt
-            heart.style.transform = `rotate(${Math.random() * 60 - 30}deg)`;
-
-            heartsContainer.appendChild(heart);
-
-            // Cleanup
-            setTimeout(() => {
-                heart.remove();
-            }, (parseFloat(duration) * 1000));
+        function toggleLetter() {
+            document.getElementById('main-container').classList.toggle('open');
         }
 
-        // Start ambient hearts slowly
-        setInterval(createHeart, 800); // Create one every 0.8s
-    </script>
+        // Falling Petals Logic
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.classList.add('petal');
+            
+            const size = Math.random() * 15 + 10 + 'px';
+            petal.style.width = size;
+            petal.style.height = size;
+            
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = Math.random() * 3 + 4 + 's';
+            petal.style.delay = Math.random() * 5 + 's';
+            
+            document.getElementById('petals-container').appendChild(petal);
 
+            setTimeout(() => {
+                petal.remove();
+            }, 7000);
+        }
+
+        setInterval(createPetal, 300);
+    </script>
 </body>
 </html>
