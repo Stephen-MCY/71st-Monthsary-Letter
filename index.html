@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>71st Monthsary - Version 4.0</title>
+    <title>71st Monthsary - Version 5.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:italic&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-red: #a91d1d;
-            --paper-color: #fffaf0;
-            --envelope-color: #f3f3f3;
-            --seal-color: #9e1b1b;
-            --bg-color: #fce4ec;
+            --primary-red: #8e1a1a;
+            --paper-color: #fdfaf3;
+            --envelope-color: #e0e0e0;
+            --seal-color: #7a1212;
+            --accent-gold: #c5a059;
         }
 
         body {
@@ -20,170 +20,168 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            /* Victorian Damask Pattern */
+            background-color: #d4a5a5;
+            background-image: url("https://www.transparenttextures.com/patterns/60-lines.png"), 
+                              linear-gradient(135deg, #e5b3b3 0%, #d4a5a5 100%);
             font-family: 'Playfair Display', serif;
             overflow: hidden;
         }
 
-        /* --- BACKGROUND DECORATION --- */
+        /* --- VICTORIAN TEXTURE OVERLAY --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/fancy-pants.png'); /* Damask Texture */
+            opacity: 0.4;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* --- BACKGROUND FLOWERS --- */
         .bg-flower {
             position: fixed;
             z-index: 1;
             pointer-events: none;
             opacity: 0.9;
-            filter: drop-shadow(2px 4px 12px rgba(0,0,0,0.1));
+            filter: sepia(0.3) drop-shadow(5px 10px 15px rgba(0,0,0,0.2));
             transition: all 0.5s ease;
         }
 
-        /* Size scaling for PC vs Mobile */
         @media (min-width: 1024px) {
-            .f1, .f2, .f3, .f4 { width: 350px !important; }
-            .envelope-wrapper { transform: scale(1.3); }
-            .container.open { transform: translateY(180px) !important; }
+            .f1, .f2, .f3, .f4 { width: 400px !important; }
+            .envelope-wrapper { transform: scale(1.2); }
         }
 
-        .f1 { width: 200px; top: -30px; left: -30px; transform: rotate(-10deg); }
-        .f2 { width: 180px; top: -20px; right: -20px; transform: rotate(10deg); }
-        .f3 { width: 250px; bottom: -50px; left: -50px; transform: rotate(5deg); }
-        .f4 { width: 220px; bottom: -30px; right: -30px; transform: rotate(-5deg); }
-
-        /* --- THE CENTERPIECE (peonies1) --- */
-        .peony-accent {
-            position: absolute;
-            width: 150px;
-            top: -75px; /* Moved up to avoid blocking text */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 11;
-            opacity: 0;
-            /* Tone down saturation and adjust brightness */
-            filter: saturate(75%) brightness(105%) drop-shadow(0 5px 15px rgba(0,0,0,0.1));
-            transition: opacity 1s 1.2s ease, transform 1s 1.2s ease;
-            pointer-events: none;
-        }
-
-        .container.open .peony-accent {
-            opacity: 1;
-            transform: translateX(-50%) translateY(20px);
-        }
+        .f1 { width: 220px; top: -40px; left: -40px; transform: rotate(-15deg); }
+        .f2 { width: 200px; top: -30px; right: -30px; transform: rotate(15deg); }
+        .f3 { width: 280px; bottom: -60px; left: -60px; transform: rotate(10deg); }
+        .f4 { width: 250px; bottom: -40px; right: -40px; transform: rotate(-10deg); }
 
         /* --- ENVELOPE SYSTEM --- */
         .container {
             position: relative;
             z-index: 10;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.9s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .envelope-wrapper {
             position: relative;
             cursor: pointer;
-            width: 350px;
-            height: 230px;
+            width: 380px;
+            height: 250px;
         }
 
         .envelope {
             position: relative;
-            width: 100%;
-            height: 100%;
-            background: #e0e0e0;
-            border-radius: 0 0 10px 10px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            width: 100%; height: 100%;
+            background: #dcdcdc;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+            border: 1px solid #c0c0c0;
         }
 
+        /* Envelope Top Flap */
         .envelope::before {
             content: "";
             position: absolute;
             top: 0; z-index: 5;
-            border-top: 150px solid var(--primary-red);
-            border-left: 175px solid transparent;
-            border-right: 175px solid transparent;
+            border-top: 170px solid var(--primary-red);
+            border-left: 190px solid transparent;
+            border-right: 190px solid transparent;
             transform-origin: top;
-            transition: transform 0.6s ease;
+            transition: transform 0.7s ease;
         }
 
+        /* Wax Seal with Gold Trim */
         .wax-seal {
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -100%);
-            width: 60px; height: 60px;
+            width: 65px; height: 65px;
             background: var(--seal-color);
             border-radius: 50%;
             z-index: 11;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #ffd700;
+            color: var(--accent-gold);
             font-family: 'Great Vibes', cursive;
-            font-size: 1.4rem;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.4);
+            font-size: 1.6rem;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.4);
+            border: 2px solid var(--accent-gold);
             transition: opacity 0.4s;
         }
 
         /* --- THE LETTER --- */
         .letter {
             position: absolute;
-            top: 5px; left: 10px;
-            width: 330px; height: 210px;
+            top: 5px; left: 15px;
+            width: 350px; height: 230px;
             background: var(--paper-color);
             z-index: 3;
-            padding: 60px 25px 25px 25px; /* Increased top padding */
+            padding: 40px 30px;
             box-sizing: border-box;
             transition: transform 0.8s ease, height 0.8s ease;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            border: 1px solid #f1e4d0;
-            border-radius: 5px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
+            border: 1px solid #e8dec9;
+            background-image: url('https://www.transparenttextures.com/patterns/old-map.png'); /* Subtle Paper Texture */
         }
 
         .letter-content {
             height: 100%;
             overflow-y: auto;
             opacity: 0;
-            transition: opacity 0.5s 0.8s ease;
+            transition: opacity 0.6s 0.8s ease;
             scrollbar-width: thin;
-            scrollbar-color: var(--primary-red) transparent;
+            scrollbar-color: var(--accent-gold) transparent;
         }
 
         .letter-content::-webkit-scrollbar { width: 4px; }
-        .letter-content::-webkit-scrollbar-thumb { background: var(--primary-red); border-radius: 10px; }
+        .letter-content::-webkit-scrollbar-thumb { background: var(--accent-gold); }
 
         .letter h2 {
             font-family: 'Great Vibes', cursive;
             color: var(--primary-red);
-            font-size: 1.8rem;
-            margin: 10px 0 20px 0;
+            font-size: 2rem;
+            margin-bottom: 25px;
             text-align: center;
+            border-bottom: 1px solid var(--accent-gold);
+            display: inline-block;
+            width: 100%;
+            padding-bottom: 10px;
         }
 
         .letter p {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: #333;
-            margin-bottom: 15px;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #2c2c2c;
+            margin-bottom: 20px;
             text-align: justify;
         }
 
         .signature {
             font-family: 'Great Vibes', cursive;
             text-align: right;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: var(--primary-red);
-            margin-top: 30px;
-            padding-bottom: 20px;
+            margin-top: 40px;
         }
 
         /* --- OPEN STATE --- */
-        .container.open { transform: translateY(150px); }
+        .container.open { transform: translateY(180px); }
         .container.open .envelope::before { transform: rotateX(180deg); z-index: 1; }
-        .container.open .letter { transform: translateY(-380px); height: 600px; z-index: 10; }
+        .container.open .letter { transform: translateY(-420px); height: 650px; z-index: 10; }
         .container.open .letter-content { opacity: 1; }
         .container.open .wax-seal { opacity: 0; pointer-events: none; }
 
-        /* Rose Petals */
+        /* Slow falling petals */
         #petals-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
-        .petal { position: absolute; background-color: #ffcdd2; border-radius: 150% 0 150% 0; animation: fall linear infinite; }
+        .petal { position: absolute; background-color: #df8b8b; border-radius: 150% 0 150% 0; animation: fall linear infinite; opacity: 0.6; }
         @keyframes fall {
-            0% { transform: translate(0, -10%) rotate(0deg); opacity: 0.8; }
-            100% { transform: translate(100px, 110vh) rotate(360deg); opacity: 0; }
+            0% { transform: translate(0, -10%) rotate(0deg); }
+            100% { transform: translate(120px, 110vh) rotate(360deg); }
         }
     </style>
 </head>
@@ -201,8 +199,6 @@
             <div class="wax-seal">D</div>
             <div class="envelope">
                 <div class="letter">
-                    <img src="peonies1.png" class="peony-accent">
-                    
                     <div class="letter-content">
                         <h2>Dear My Bebe Darling,</h2>
                         <p>Salamat sa lahat ng taon na pinagsamahan natin. Ikaw pinakamasayang nangyari sa buhay ko. Salamat bebe ko kasi andyan ka parin para sa ating dalawa, sa relationship natin. Gusto ko magsorry sa lahat ng pagkukulang ko sayo bebe ko. Sa totoo lang, hindi ko talaga maimagine na wala ka sa buhay ko. Lagi ko iniisip na ikaw yung goal ng buhay ko, ikaw yung nagbibigay ng inspiration sakin para magkaroon ng mga pangarap.</p>
@@ -224,15 +220,15 @@
         function createPetal() {
             const petal = document.createElement('div');
             petal.classList.add('petal');
-            const size = Math.random() * 15 + 10 + 'px';
+            const size = Math.random() * 20 + 10 + 'px';
             petal.style.width = size;
             petal.style.height = size;
             petal.style.left = Math.random() * 100 + 'vw';
-            petal.style.animationDuration = Math.random() * 3 + 4 + 's';
+            petal.style.animationDuration = Math.random() * 5 + 5 + 's';
             document.getElementById('petals-container').appendChild(petal);
-            setTimeout(() => petal.remove(), 7000);
+            setTimeout(() => petal.remove(), 10000);
         }
-        setInterval(createPetal, 300);
+        setInterval(createPetal, 400);
     </script>
 </body>
 </html>
