@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Special Letter for You</title>
+    <title>71st Monthsary - Version 2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:italic&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,39 +27,65 @@
             overflow: hidden;
         }
 
-        /* --- STATIC ROMANTIC ELEMENTS --- */
+        /* --- CELEBRATION ELEMENTS --- */
+        
+        /* Floating Balloons */
+        .balloon {
+            position: fixed;
+            width: 80px;
+            bottom: -150px;
+            z-index: 2;
+            animation: floatBalloon 15s ease-in infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes floatBalloon {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-60vh) rotate(10deg); }
+            100% { transform: translateY(-110vh) rotate(-10deg); }
+        }
+
+        /* Corner Flowers */
+        .flower-corner {
+            position: fixed;
+            width: 250px;
+            z-index: 15;
+            pointer-events: none;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+        }
+        .bottom-left { bottom: -20px; left: -20px; transform: rotate(10deg); }
+        .bottom-right { bottom: -20px; right: -20px; transform: rotate(-10deg) scaleX(-1); }
+
+        /* Lace Borders */
         .lace-border {
             position: fixed;
             top: 0; bottom: 0;
-            width: 50px;
-            background-image: radial-gradient(circle, transparent 70%, #f48fb1 75%);
-            background-size: 20px 20px;
-            opacity: 0.3;
-            z-index: 0;
+            width: 60px;
+            background-image: url('https://www.transparenttextures.com/patterns/pinstripe.png');
+            background-color: #f48fb1;
+            opacity: 0.2;
+            z-index: 1;
         }
-        .lace-left { left: 0; }
-        .lace-right { right: 0; }
+        .lace-left { left: 0; border-right: 2px dashed #f06292; }
+        .lace-right { right: 0; border-left: 2px dashed #f06292; }
 
-        /* --- ROSE PETALS ANIMATION --- */
+        /* --- ROSE PETALS --- */
         #petals-container {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             pointer-events: none;
-            z-index: 1;
+            z-index: 3;
         }
-
         .petal {
             position: absolute;
             background-color: #ffcdd2;
             border-radius: 150% 0 150% 0;
             animation: fall linear infinite;
-            opacity: 0.8;
         }
-
         @keyframes fall {
-            0% { transform: translate(0, -10%) rotate(0deg); }
-            100% { transform: translate(100px, 110vh) rotate(360deg); }
+            0% { transform: translate(0, -10%) rotate(0deg); opacity: 0.8; }
+            100% { transform: translate(100px, 110vh) rotate(360deg); opacity: 0; }
         }
 
         /* --- ENVELOPE SYSTEM --- */
@@ -85,7 +111,6 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
 
-        /* Vintage Stamp */
         .stamp {
             position: absolute;
             top: 20px;
@@ -106,7 +131,6 @@
             font-weight: bold;
         }
 
-        /* Envelope Flap */
         .envelope::before {
             content: "";
             position: absolute;
@@ -119,7 +143,6 @@
             transition: transform 0.6s ease;
         }
 
-        /* Wax Seal */
         .wax-seal {
             position: absolute;
             top: 50%;
@@ -190,30 +213,13 @@
             margin-top: 20px;
         }
 
-        /* --- OPEN STATE ANIMATION --- */
-        .container.open {
-            transform: translateY(120px); /* Moves the whole envelope down */
-        }
+        /* --- OPEN STATE --- */
+        .container.open { transform: translateY(120px); }
+        .container.open .envelope::before { transform: rotateX(180deg); z-index: 1; }
+        .container.open .letter { transform: translateY(-320px); height: 500px; z-index: 10; }
+        .container.open .letter-content { opacity: 1; }
+        .container.open .wax-seal { opacity: 0; pointer-events: none; }
 
-        .container.open .envelope::before {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .container.open .letter {
-            transform: translateY(-280px); /* Moves letter up while envelope goes down */
-            height: 450px;
-            z-index: 10;
-        }
-
-        .container.open .letter-content {
-            opacity: 1;
-        }
-
-        .container.open .wax-seal {
-            opacity: 0;
-            pointer-events: none;
-        }
     </style>
 </head>
 <body>
@@ -221,6 +227,9 @@
     <div class="lace-border lace-left"></div>
     <div class="lace-border lace-right"></div>
     <div id="petals-container"></div>
+    
+    <img src="https://img.icons8.com/color/500/romantic-flower.png" class="flower-corner bottom-left" alt="Flowers">
+    <img src="https://img.icons8.com/color/500/romantic-flower.png" class="flower-corner bottom-right" alt="Flowers">
 
     <div class="container" id="main-container">
         <div class="envelope-wrapper" onclick="toggleLetter()">
@@ -230,18 +239,10 @@
                 <div class="letter">
                     <div class="letter-content">
                         <h2>Dear My Bebe Darling,</h2>
-                        <p>
-                            Salamat sa lahat ng taon na pinagsamahan natin. Ikaw pinakamasayang nangyari sa buhay ko. Salamat bebe ko kasi andyan ka parin para sa ating dalawa, sa relationship natin. Gusto ko magsorry sa lahat ng pagkukulang ko sayo bebe ko. Sa totoo lang, hindi ko talaga maimagine na wala ka sa buhay ko. Lagi ko iniisip na ikaw yung goal ng buhay ko, ikaw yung nagbibigay ng inspiration sakin para magkaroon ng mga pangarap. 
-                        </p>
-                        <p>
-                            Sobrang excited na akong makasama ka habang buhay tapos gawin yung mga bagay-bagay na magkasama. Hindi na ako makapaghintay na makita ka ulit bebe ko. Araw araw kitang iniisip. Gustong gusto na kita mahawakan, mahalikan, mayakap at kung ano ano pa hehe. Hirap ng LDR sana kasama kita tapos nauuwian kita sa bahay araw araw. 
-                        </p>
-                        <p>
-                            Sana mag iingat ka lagi bebe ko, tapos kanina natutuwa ako kasi lumalayo ka sa mga lalaki tas pinapakita mong akin ka lang. Yan ang gusto ko! Kaya mas lalo akong nai-inlove sayo ihh. Akin ka lang ah! Ayaw na ayaw kong mashare ka sa iba, akin lang lahat sayo. Sarap mo ih super. Sana matupad mo lahat ng mga pangarap mo. Itatry ko makakaya ko na iparamdam sayo na mahal na mahal kita. 
-                        </p>
-                        <p>
-                            HAPPY 71st MONTHSARY ULIT MY SUPER DUPER GANDANG BEBE DARLING NA MAHAL NA MAHAL KO! ILOVEYOUUU!!!
-                        </p>
+                        <p>Salamat sa lahat ng taon na pinagsamahan natin. Ikaw pinakamasayang nangyari sa buhay ko. Salamat bebe ko kasi andyan ka parin para sa ating dalawa, sa relationship natin. Gusto ko magsorry sa lahat ng pagkukulang ko sayo bebe ko. Sa totoo lang, hindi ko talaga maimagine na wala ka sa buhay ko. Lagi ko iniisip na ikaw yung goal ng buhay ko, ikaw yung nagbibigay ng inspiration sakin para magkaroon ng mga pangarap.</p>
+                        <p>Sobrang excited na akong makasama ka habang buhay tapos gawin yung mga bagay-bagay na magkasama. Hindi na ako makapaghintay na makita ka ulit bebe ko. Araw araw kitang iniisip. Gustong gusto na kita mahawakan, mahalikan, mayakap at kung ano ano pa hehe. Hirap ng LDR sana kasama kita tapos nauuwian kita sa bahay araw araw.</p>
+                        <p>Sana mag iingat ka lagi bebe ko, tapos kanina natutuwa ako kasi lumalayo ka sa mga lalaki tas pinapakita mong akin ka lang. Yan ang gusto ko! Kaya mas lalo akong nai-inlove sayo ihh. Akin ka lang ah! Ayaw na ayaw kong mashare ka sa iba, akin lang lahat sayo. Sarap mo ih super. Sana matupad mo lahat ng mga pangarap mo. Itatry ko makakaya ko na iparamdam sayo na mahal na mahal kita.</p>
+                        <p>HAPPY 71st MONTHSARY ULIT MY SUPER DUPER GANDANG BEBE DARLING NA MAHAL NA MAHAL KO! ILOVEYOUUU!!!</p>
                         <div class="signature">Love, Donald</div>
                     </div>
                 </div>
@@ -254,27 +255,31 @@
             document.getElementById('main-container').classList.toggle('open');
         }
 
-        // Falling Petals Logic
+        // Falling Petals
         function createPetal() {
             const petal = document.createElement('div');
             petal.classList.add('petal');
-            
             const size = Math.random() * 15 + 10 + 'px';
             petal.style.width = size;
             petal.style.height = size;
-            
             petal.style.left = Math.random() * 100 + 'vw';
             petal.style.animationDuration = Math.random() * 3 + 4 + 's';
-            petal.style.delay = Math.random() * 5 + 's';
-            
             document.getElementById('petals-container').appendChild(petal);
-
-            setTimeout(() => {
-                petal.remove();
-            }, 7000);
+            setTimeout(() => petal.remove(), 7000);
         }
-
         setInterval(createPetal, 300);
+
+        // Floating Balloons
+        function createBalloon() {
+            const b = document.createElement('img');
+            b.src = "https://img.icons8.com/color/96/filled-heart.png";
+            b.classList.add('balloon');
+            b.style.left = Math.random() * 100 + 'vw';
+            b.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            document.body.appendChild(b);
+            setTimeout(() => b.remove(), 15000);
+        }
+        setInterval(createBalloon, 2000);
     </script>
 </body>
 </html>
